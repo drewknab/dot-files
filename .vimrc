@@ -1,33 +1,69 @@
 " Basic Setup
+
 set nocompatible                    " Double down on not being vi
-so ~/.vim/plugins.vim
+
+filetype off    " Required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" {{{ Basic Functionality
+Plugin 'VundleVim/Vundle.vim'
+" }}}
+
+" {{{ Colors
+Plugin 'dracula/vim'
+" }}}
+" 
+" {{{ Whizbang Functionality
+Plugin 'itchyny/lightline.vim'
+" }}}
+
+" {{{ Language Plugins
+Plugin 'sheerun/vim-polyglot'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'othree/html5.vim'
+Plugin 'digitaltoad/vim-pug'
+Plugin 'isRuslan/vim-es6'
+" }}}
+
+" {{{ tpope power hour
+Plugin 'tpope/vim-vinegar'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-capslock'
+" }}}
+
+call vundle#end()
+filetype plugin indent on
 
 set backspace=indent,eol,start      " Make backspace behave
 let mapleader=','                   " The default Leader is \
 set wildmenu                        " visual autocomplete menu
 set lazyredraw                      " redraw only when necessary
+set nowrap
 set path=+**                        " Bizarre fuzzysearch
 
 " Splits
 set splitbelow                      " hsplits default below
 set splitright                      " vsplits default right
+set laststatus=2
+set noshowmode
 
-
-nmap <C-J> <C-W><C-J>
-nmap <C-K> <C-W><C-K>
-nmap <C-H> <C-W><C-H>
-nmap <C-L> <C-W><C-L>
 
 " Spaces and Tabs
-set tabstop=4                       " Number of spaces per TAB
-set softtabstop=4                   " Number of spaces in TAB when editing
+set tabstop=2                       " Number of spaces per TAB
+set softtabstop=2                   " Number of spaces in TAB when editing
 set expandtab                       " TABs are spaces
 filetype indent on                  " load filetype-specific indent files
 
 " Visuals
 syntax enable
-colorscheme atom-dark
-set t_CO=256                        " Use 256 colors for Terminal Vim
+syntax on
+colorscheme dracula
 set number                          " Activate line numbers
 set showcmd                         " Show command in bottom bar
 set cursorline                      " Highlight current line
@@ -48,21 +84,23 @@ if has('gui_running')
     set guioptions-=r
     set guioptions-=R
 
-    set guifont=Fira_Code:h17       " MacVim font
-    set linespace=10                " MacVim feature
+    set guifont=Fira_Code:h22    " MacVim font
 endif
 
 " Mappings
 
 " Easy editing for Vimrc file
 nmap <Leader>ev :tabedit ~/.vimrc<cr>
+nmap <Leader>v :vsplit<cr>
+nmap <Leader>z :split<cr>
+nmap <Leader>j <C-w><C-j>
+nmap <Leader>k <C-W><C-K>
+nmap <Leader>h <C-W><C-H>
+nmap <Leader>l <C-W><C-L>
 
+nnoremap zz :q!<cr>
 " Add simple highlight removal
 nmap <Leader><space> :nohlsearch<cr>
-
-nmap <D-1> :NERDTreeToggle<cr>
-nmap <D-p> :CtrlP<cr>
-
 
 " Auto-Commands
 
@@ -73,3 +111,23 @@ augroup autosourcing
 	autocmd BufWritePost .vimrc source %
 augroup END
 
+if $TERM_PROGRAM =~ "iTerm"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+endif
+
+if $TERM_PROGRAM =~ "Hyper"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+endif
+
+let g:lightline = {
+      \ 'colorscheme': 'Dracula',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ }
