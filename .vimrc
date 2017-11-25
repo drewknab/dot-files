@@ -63,8 +63,9 @@ filetype indent on                  " load filetype-specific indent files
 
 " Visuals
 syntax enable
+set term=xterm-256color
 syntax on
-colorscheme default
+colorscheme dracula
 set nu                              " Activate line numbers
 set rnu                             " Activate relative line numbers
 set showcmd                         " Show command in bottom bar
