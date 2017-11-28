@@ -11,6 +11,8 @@ call vundle#begin()
 
 " {{{ Basic Functionality
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'jszakmeister/vim-togglecursor'
 " }}}
 
 " {{{ Colors
@@ -117,11 +119,11 @@ augroup autosourcing
 	autocmd BufWritePost .vimrc source %
 augroup END
 
-if ($TERM_PROGRAM =~ "iTerm" || $TERM_PROGRAM =~ "Hyper")
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in NORMAL mode
-    let &t_SI = "\<Esc>]5R;CursorShape=1\x7" " Vertical bar in INSERT mode
-    let &t_SR = "\<Esc>]50;CursorShape=2\x7" " Underline in REPLACE
-endif
+" if ($TERM_PROGRAM =~ "iTerm" || $TERM_PROGRAM =~ "Hyper" || $TERM_PROGRAM =~ "Apple_Terminal")
+"     let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in NORMAL mode
+"     let &t_SI = "\<Esc>]5R;CursorShape=1\x7" " Vertical bar in INSERT mode
+"     let &t_SR = "\<Esc>]50;CursorShape=2\x7" " Underline in REPLACE
+" endif
 
 
 let g:lightline = {
