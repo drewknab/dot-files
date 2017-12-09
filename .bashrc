@@ -50,7 +50,7 @@ function parse_git_dirty {
 	fi
 }
 
-export PS1="\[\e[0;36m\]\W\[\e[0;33m\]\`parse_git_branch\`\[\e[0;37m\]: "
+export PS1=" \[\e[0;36m\]\W\[\e[0;33m\]\`parse_git_branch\`\[\e[0;37m\]: "
 
 export TTC_BOTS='tinycarebot,selfcare_bot,magicrealismbot'
 export TTC_SAY_BOX='parrot'
