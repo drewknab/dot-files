@@ -3,7 +3,7 @@
 :: Commands
 
 DOSKEY ls=dir /B
-DOSKEY alias=gvim %USERPROFILE%\code\fun\aliases.bat
+DOSKEY alias=gvim %USERPROFILE%\aliases.bat
 
 :: Movement
 DOSKEY ~=cd "%USERPROFILE%"
