@@ -2,7 +2,6 @@
 
 set nocompatible                    " Double down on not being vi
 set encoding=utf-8                  " Force a utf-8 encoding
-set noswapfile
 
 filetype off    " Required
 
@@ -18,18 +17,19 @@ Plugin 'jszakmeister/vim-togglecursor'
 
 " {{{ Colors
 Plugin 'dracula/vim'
-Plugin 'sonjapeterson/1989.vim'
 " }}}
 " 
 " {{{ Whizbang Functionality
 Plugin 'itchyny/lightline.vim'
-Plugin 'mgee/lightline-bufferline'
 " }}}
 
 " {{{ Language Plugins
+Plugin 'sheerun/vim-polyglot'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
-Plugin 'mattn/emmet-vim'
+Plugin 'othree/html5.vim'
+Plugin 'digitaltoad/vim-pug'
+Plugin 'isRuslan/vim-es6'
 " }}}
 
 " {{{ tpope power hour
@@ -40,7 +40,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-capslock'
 " }}}
 
-Plugin 'ryanoasis/vim-devicons'
 call vundle#end()
 filetype plugin indent on
 
@@ -68,18 +67,13 @@ filetype indent on                  " load filetype-specific indent files
 syntax enable
 set term=xterm-256color
 syntax on
-colorscheme 1989
+colorscheme dracula
 set nu                              " Activate line numbers
-"set rnu                             " Activate relative line numbers
+set rnu                             " Activate relative line numbers
 set showcmd                         " Show command in bottom bar
 set cursorline                      " Highlight current line
 set showmatch                       " highlight matching brackets
-"hi vertsplit guifg=bg guibg=bg          " hide split border 
-hi vertsplit ctermfg=NONE ctermbg=NONE  " hide split border 
-hi Normal guibg=NONE ctermbg=NONE
-hi LineNr guibg=NONE ctermbg=NONE
-hi NonText guibg=NONE ctermbg=NONE
-set showtabline=2
+hi vertsplit guifg=bg guibg=bg      " hide split border 
 
 " Searching
 set incsearch                       " search as characters are entered
@@ -87,8 +81,13 @@ set hlsearch                        " highlight matches
 
 " MacVim Centric
 if has('gui_running')
-    colorscheme 1989
-    set guioptions=                 " Remove scrollbars
+    colorscheme dracula
+    set guioptions-=l               " Remove scrollbars
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=R
+    set guioptions-=T
+    set guioptions-=m
    
     set guifont=Fira_Code:h14       " GUI font
 endif
@@ -126,59 +125,14 @@ augroup END
 "     let &t_SR = "\<Esc>]50;CursorShape=2\x7" " Underline in REPLACE
 " endif
 
-autocmd FileType html,css EmmetInstall
-let g:user_emmet_leader_key='<Leader><Tab>'
-let g:user_emmet_settings = {
-      \ 'javascript.jsx' : {
-      \   'extends': 'jsx',
+
+let g:lightline = {
+      \ 'colorscheme': 'Dracula',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
       \ },
       \ }
-
-let g:lightline                       = {}
-let g:lightline.tab                   = {'active': ['filename', 'modified'], 'inactive': ['filename', 'modified']}
-let g:lightline.active                = {'left': [['mode','paste'],['gitbranch','readonly','filename','modified']]}
-let g:lightline.tabline               = {'left': [['tabs']], 'right': [['']]}
-let g:lightline.separator             = { 'left': '', 'right': '' }
-"let g:lightline.separator             = { 'left': '', 'right': '' }
-"let g:lightline.separator             = { 'left': '', 'right': '' }
-"let g:lightline.separator             = { 'left': '', 'right': '' }
-let g:lightline.colorscheme           = 'seoul256'
-let g:lightline.subseparator             = { 'left': '', 'right': '' }
-"let g:lightline.subseparator             = { 'left': '', 'right': '' }
-"let g:lightline.subseparator          = { 'left': '', 'right': '' }
-"let g:lightline.subseparator          = { 'left': '', 'right': '' }
-let g:lightline.component_type        = {'buffers': 'tabsel'}
-let g:lightline.component_expand      = {'buffers': 'lightline#bufferline#buffers'}
-let g:lightline.tabline_separator     = g:lightline.separator
-let g:lightline.component_function    = {'gitbranch': 'Fugitive', 'readonly': 'LightlineReadonly', 'filetype': 'MyFiletype', 'fileformat': 'MyFileformat',}
-let g:lightline.tabline_subseparator  = g:lightline.subseparator
-"
-autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
-
-function! LightlineReadonly()
-    return &readonly ? '' : ''
-endfunction
-
-function! Fugitive()
-    if exists('*fugitive#head')
-        let branch = fugitive#head()
-        return branch !=# '' ? ''.branch : ''
-    endif
-
-    return ''
-endfunction
-
-function! MyFiletype()
-    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-endfunction
-
-function! MyFileformat()
-    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
-endfunction
-
-let g:lightline#bufferline#show_number  = 2
-let g:lightline#bufferline#shorten_path = 0
-let g:lightline#bufferline#unnamed      = '*'
-let g:lightline#bufferline#enable_devicons = 1
-
-
