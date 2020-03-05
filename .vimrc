@@ -45,7 +45,7 @@ call vundle#end()
 filetype plugin indent on
 
 set backspace=indent,eol,start      " Make backspace behave
-let mapleader=','                   " The default Leader is \
+let mapleader=' '                   " The default Leader is \
 set wildmenu                        " visual autocomplete menu
 set lazyredraw                      " redraw only when necessary
 set nowrap
@@ -108,7 +108,7 @@ nmap <Leader>ca gg V G              " Select whole buffer
 nmap <Leader>cp "+p
 nmap <Leader><space> :nohlsearch<cr>
 
-nnoremap zz :q!<cr>
+nnoremap <space> <Nop>
 " Add simple highlight removal
 
 " Auto-Commands
