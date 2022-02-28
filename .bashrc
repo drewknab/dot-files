@@ -138,10 +138,11 @@ alias gc="git commit -m "
 alias gca="git commit -a -m "
 alias gp="git push"
 alias nah="git reset --hard && git clean -df"
+alias glhf="git log --graph --oneline --decorate"
 
 # folders
 alias gtc="cd ~/Code"
-alias gth="cd /mnt/c/Users/dknab/"
+alias gth="cd /mnt/c/Users/dknab/" # For my WSL
 
 # npm
 alias nrs="npm run start"
