@@ -20,6 +20,10 @@ call plug#begin(stdpath('config') . '/plugged')
     Plug 'tpope/vim-fugitive'
     Plug 'editorconfig/editorconfig-vim'
     Plug 'https://gitlab.com/code-stats/code-stats-vim.git'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+    Plug 'sindrets/diffview.nvim'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -56,6 +60,10 @@ hi Normal guibg=NONE ctermbg=NONE
 hi LineNr guibg=NONE ctermbg=NONE
 hi NonText guibg=NONE ctermbg=NONE
 set showtabline=2
+set foldlevel=20
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set foldcolumn=3
 
 " Searching
 set incsearch                       " search as characters are entered
@@ -73,6 +81,7 @@ nmap <Leader>k <C-w><C-k>
 nmap <Leader>h <C-w><C-h>
 nmap <Leader>l <C-w><C-l>
 nmap <Leader>ca gg V G              " Select whole buffer
+nmap <Leader>c "+y
 nmap <Leader>cp "+p
 nmap <Leader><space> :nohlsearch<cr>
 
@@ -90,17 +99,38 @@ let g:lightline.component_expand      = {'buffers': 'lightline#bufferline#buffer
 let g:lightline.component_function    = {'gitbranch': 'FugitiveHead', 'readonly': 'LightlineReadonly', 'CodeStats': 'CodeStatsXp'}
 
 " CodeStats
-let g:codestats_api_key = ''
+let g:codestats_api_key = 'SFMyNTY.WkhKbGQydHVZV0k9IyNNVFUzTWpjPQ.xwE6EirP0R3QLlpNEcQIaP92BRugX0nL2AtS80lo5xw'
 
 " EditorConfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-" CoC Functionality
+" TreeSitter
+function! s:treesitter()
+lua << EOF
+  require'nvim-treesitter.configs'.setup {
+    highlight = {
+    enable = true
+  }
+}
+EOF
+endfunction
+
+" Telescope
+nnoremap <leader>pf <cmd>Telescope find_files<cr>
+nnoremap <C-p> <cmd>Telescope git_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" CoC
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" Diffview
+nmap <leader>gd <cmd>DiffviewOpen<cr>
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
